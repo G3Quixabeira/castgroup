@@ -25,9 +25,5 @@ public class CategoriaModel {
 	}
 	
 	public CategoriaModel() {}
-	
-	public CategoriaModel(String descricao) {
-		this.descricao = descricao;
-	}
 
 }
