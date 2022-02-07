@@ -14,11 +14,26 @@ public class CategoriaServiceImpl implements CategoriaService {
 
     private CategoriaDAO categoriaDAO;
 
+    @Autowired
+    public CategoriaServiceImpl(CategoriaDAO categoriaDAO) {
+        this.categoriaDAO = categoriaDAO;
+    }
 
     @Override
     public void salvar(CategoriaModel categoria) {
         this.categoriaDAO.save(categoria);
 
+    }
+
+    @Override
+    public List<CategoriaModel> findCategoriaByProps(CategoriaModel categoria) {
+        return this.categoriaDAO.findByDescricao(categoria.getDescricao());
+    }
+
+    @Override
+    public Optional<CategoriaModel> findCategoriaById(Long id) {
+
+        return this.categoriaDAO.findById(id);
     }
 
 }

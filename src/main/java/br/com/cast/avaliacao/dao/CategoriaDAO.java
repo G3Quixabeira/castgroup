@@ -8,5 +8,6 @@ import java.util.List;
 
 
 public interface CategoriaDAO extends JpaRepository<CategoriaModel, Long> {
-
+	@Query("SELECT t FROM CategoriaModel t WHERE t.descricao = ?1")
+	List<CategoriaModel> findByDescricao(String categoria);
 }

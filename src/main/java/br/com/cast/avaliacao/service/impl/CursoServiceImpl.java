@@ -25,7 +25,11 @@ public class CursoServiceImpl implements CursoService {
 		this.cursoDAO = cursoDAO;
 	}
 
+	@Override
+	public Optional<CursoModel> findById(Long id) {
 
+		return this.cursoDAO.findById(id);
+	}
 
 	@Transactional
 	@Override
@@ -33,6 +37,30 @@ public class CursoServiceImpl implements CursoService {
 		this.cursoDAO.save(livro);
 	}
 
+	@Override
+	public List<CursoModel> findByParams(CursoModel params) {
+		return null;
+	}
+
+	@Override
+	public List<CursoModel> getListaCursos(Integer offset, Integer size) {
+		Pageable paging = PageRequest.of(offset, size);
+		 Page<CursoModel> pagedResult =  this.cursoDAO.findAll(paging);
+
+		 if(pagedResult.hasContent()) {
+			return pagedResult.getContent();
+		} else {
+			return new ArrayList<CursoModel>();
+		}
+	}
+
+	@Transactional
+	@Override
+	public void deleteCurso(Long id) {
+		Optional<CursoModel> curso = this.cursoDAO.findById(id);
+		if(!Optional.ofNullable(curso).isPresent())
+			this.cursoDAO.delete(curso.get());
+	}
 
 	@Transactional
 	@Override

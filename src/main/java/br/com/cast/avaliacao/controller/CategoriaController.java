@@ -35,6 +35,30 @@ public class CategoriaController {
 		this.categoriaService = categoriaService;
 	}
 
+	@ApiOperation(value = "Lista categorias")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Lista obtida com sucesso"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@GetMapping
+	public ResponseEntity<List<CategoriaModel>> getCategoriaByNamePostNameShortName(@RequestBody CategoriaModel categoria) throws URISyntaxException {
+		return ResponseEntity.ok(this.categoriaService.findCategoriaByProps(categoria));
+	}
+
+	@ApiOperation(value = "Obtem o categoria pelo Id")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Categoria obtido com sucesso"),
+			@ApiResponse(code = 404, message = "Categoria não encontrado"),
+			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
+	@GetMapping(path = "/{id}")
+	public ResponseEntity<CategoriaModel> getCategoriaById(@PathVariable("id") Long id) throws URISyntaxException {
+		Optional<CategoriaModel> categoria= this.categoriaService.findCategoriaById(id);
+
+		if(!Optional.ofNullable(categoria).isPresent())
+			return ResponseEntity.notFound().build();
+
+		return ResponseEntity.ok(categoria.get());
+	}
+
 	@ApiOperation(value = "Salva os dados de um categoria")
 	@ApiResponses(value = {
 			@ApiResponse(code = 201, message = "Categoria salvo"),

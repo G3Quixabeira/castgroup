@@ -9,5 +9,8 @@ public interface CategoriaService {
 
 	void salvar(CategoriaModel categoria);
 
+	List<CategoriaModel> findCategoriaByProps(CategoriaModel categoria);
+
+	Optional<CategoriaModel> findCategoriaById(Long id);
 
 }
