@@ -3,6 +3,7 @@ package br.com.cast.avaliacao.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
@@ -46,29 +47,5 @@ public class CategoriaController {
 		if (categoria.getId() == null)
 			return ResponseEntity.status(204).build();
 		return ResponseEntity.created(new URI("/categoria/" + categoria.getId())).build();
-	}
-	
-	@ApiOperation(value = "Lista categorias")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Lista obtida com sucesso"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@GetMapping
-	public ResponseEntity<List<CategoriaModel>> getCategoriaByNamePostNameShortName(@RequestBody CategoriaModel categoria) throws URISyntaxException {
-		return ResponseEntity.ok(this.categoriaService.findCategoriaByProps(categoria));
-	}
-	
-	@ApiOperation(value = "Obtem o categoria pelo Id")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Categoria obtido com sucesso"),
-			@ApiResponse(code = 404, message = "Categoria não encontrado"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@GetMapping(path = "/{id}")
-	public ResponseEntity<CategoriaModel> getCategoriaById(@PathVariable("id") Long id) throws URISyntaxException {
-		CategoriaModel categoria= this.categoriaService.findCategoriaById(id);
-		
-		if(categoria == null || categoria.getId()==null)
-			return ResponseEntity.notFound().build();
-		
-		return ResponseEntity.ok(categoria);
 	}
 }

@@ -7,31 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoriaServiceImpl implements CategoriaService {
 
     private CategoriaDAO categoriaDAO;
 
-    @Autowired
-    public CategoriaServiceImpl(CategoriaDAO categoriaDAO) {
-        this.categoriaDAO = categoriaDAO;
-    }
 
     @Override
-    public void salvar(CategoriaModel autor) {
-        this.categoriaDAO.salvar(autor);
+    public void salvar(CategoriaModel categoria) {
+        this.categoriaDAO.save(categoria);
 
-    }
-
-    @Override
-    public List<CategoriaModel> findCategoriaByProps(CategoriaModel categoria) {
-        return this.categoriaDAO.findCategoriaByProps(categoria);
-    }
-
-    @Override
-    public CategoriaModel findCategoriaById(Long id) {
-        return this.categoriaDAO.recuperar(id);
     }
 
 }

@@ -3,6 +3,7 @@ package br.com.cast.avaliacao.controller;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
@@ -38,20 +39,8 @@ public class CursoController {
 
 	@Autowired
 	public CursoController(CursoService cursoService) {
+
 		this.cursoService = cursoService;
-	}
-
-	@ApiOperation(value = "Obtém detalhes de um curso por seu ID")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna um curso por seu ID"),
-			@ApiResponse(code = 404, message = "curso não encontrado"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@GetMapping(path = "/{id}")
-	public ResponseEntity<CursoModel> getCursoById(@PathVariable("id") Long id) {
-
-		CursoModel curso = cursoService.findById(id);
-		if (curso == null || curso.getDescricao() == null)
-			return ResponseEntity.notFound().build();
-		return ResponseEntity.ok(curso);
 	}
 
 	@ApiOperation(value = "Salva os dados de um curso")
@@ -74,44 +63,6 @@ public class CursoController {
 			return ResponseEntity.status(204).build();
 
 		return ResponseEntity.created(new URI("/curso/" + curso.getId())).build();
-	}
-
-	@ApiOperation(value = "Obtém lista de cursos pelo titulo")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna uma lista de cursos pelo título"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@GetMapping(path = "/descricao")
-	public ResponseEntity<List<CursoModel>> getCursoByTitulo(@RequestBody CursoModel params) {
-
-		if(StringUtils.hasLength(params.getDescricao()))
-			return ResponseEntity.badRequest().build();
-		
-		List<CursoModel> cursos = cursoService.findByParams(params);
-
-		return ResponseEntity.ok(cursos);
-	}
-
-	@ApiOperation(value = "Obtém lista de cursos")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna uma lista de cursos"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@GetMapping
-	public ResponseEntity<List<CursoModel>> getListacursos(
-			@RequestParam(name = "offset", defaultValue = "0") Integer offset,
-			@RequestParam(name = "size", defaultValue = "10") Integer size) {
-
-		List<CursoModel> cursos = cursoService.getListaCursos(offset, size);
-
-		return ResponseEntity.ok(cursos);
-	}
-
-	@ApiOperation(value = "Deleta um curso pelo Id")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Retorna 200 quando conclui"),
-			@ApiResponse(code = 500, message = "Foi gerada uma exceção"), })
-	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<CursoModel> deleteCurso(@PathVariable("id") Long id) {
-
-		cursoService.deleteCurso(id);
-
-		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@ApiOperation(value = "Altera os dados de um curso ")

@@ -7,7 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import io.swagger.annotations.ApiModel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @ApiModel(value = "categoria")
@@ -20,10 +22,11 @@ public class CategoriaModel {
 	private Long id;
 	private String descricao;
 	
-	public CategoriaModel(String descricao) {
+	public CategoriaModel(Long id, String descricao) {
+		this.id = id;
 		this.descricao = descricao;
 	}
-	
+
 	public CategoriaModel() {}
 
 }
